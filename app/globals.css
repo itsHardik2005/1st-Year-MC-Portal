@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 48 100% 97%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 48 96% 53%;
+    --primary-foreground: 0 0% 0%;
+    --secondary: 330 81% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 30%;
+    --accent: 217 91% 60%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 0 0% 0%;
+    --radius: 0px;
+  }
+}
+
+@layer utilities {
+  /* Neo-Brutalist Hard Offset Shadows */
+  .shadow-brutal-sm {
+    box-shadow: 3px 3px 0px 0px #000000;
+  }
+  .shadow-brutal {
+    box-shadow: 5px 5px 0px 0px #000000;
+  }
+  .shadow-brutal-lg {
+    box-shadow: 8px 8px 0px 0px #000000;
+  }
+  .shadow-brutal-xl {
+    box-shadow: 12px 12px 0px 0px #000000;
+  }
+  
+  /* Neo-Brutalist Active Button Press Effects */
+  .btn-brutal {
+    border: 3px solid #000000;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 0.15s ease-in-out;
+  }
+  .btn-brutal:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px #000000;
+  }
+  .btn-brutal:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px 0px #000000;
+  }
+
+  .card-brutal {
+    border: 4px solid #000000;
+    box-shadow: 8px 8px 0px 0px #000000;
+    background-color: #ffffff;
+  }
+}
+
+/* Global Custom Scrollbars for Brutalist feel */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #fef08a;
+  border-left: 3px solid #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border: 2px solid #fef08a;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ec4899;
+}
