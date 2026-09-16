@@ -30,9 +30,21 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*.local
+# env and credential files (prevent accidental secret leaks)
 .env
+.env.local
+.env*.local
+.env.development.local
+.env.test.local
+.env.production.local
+credentials.json
+service-account*.json
+*.key
+*.pem
+*.cert
+*.crt
+# Allow .env.example for repository template check-in
+!.env.example
 
 # vercel
 .vercel

@@ -297,7 +297,7 @@ export default function Home() {
             </div>
           </Link>
 
-          {/* Card 2: Electives */}
+          {/* Card 2: Non-Core Syllabus */}
           <Link
             href="/non-core"
             className="group border-3 sm:border-4 border-black bg-purple-300 p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-purple-400 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all flex flex-col justify-between"
@@ -305,21 +305,21 @@ export default function Home() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <span className="bg-black text-white px-2.5 py-0.5 font-mono text-[10px] font-black uppercase border border-black">
-                  ELECTIVES
+                  NON-CORE SYLLABUS
                 </span>
                 <Layers className="w-7 h-7 text-black stroke-[2.5]" />
               </div>
               <div>
                 <h3 className="text-xl font-black uppercase text-black tracking-tight">
-                  Electives & Ethics Vault
+                  Non-Core Subjects Directory
                 </h3>
                 <p className="text-xs font-bold text-black mt-2 leading-relaxed bg-white p-3 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-mono">
-                  Technical Communication, IEEE Professional Ethics, Report Writing, and Presentation Slides.
+                  Mathematics-I (BS-M101), Chemistry-I (BS-CH-101), Programming for Problem Solving (C), and English Communication with curated YouTube lectures.
                 </p>
               </div>
             </div>
             <div className="mt-5 pt-3 border-t-3 border-black flex items-center justify-between text-xs font-black uppercase text-black font-mono">
-              <span>EXPLORE ELECTIVES</span>
+              <span>EXPLORE NON-CORE</span>
               <ArrowRight className="w-4 h-4 stroke-[3] group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>

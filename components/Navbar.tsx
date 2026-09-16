@@ -19,6 +19,7 @@ import {
   HelpCircle,
   Settings,
 } from "lucide-react";
+import ContactHelpModal from "@/components/ContactHelpModal";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -26,6 +27,7 @@ export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   useEffect(() => {
     const supabase = createClient();
@@ -127,15 +129,16 @@ export default function Navbar() {
             <span>SETTINGS</span>
           </Link>
 
-          {/* HELP Button - Magenta bg with mailto link */}
-          <a
-            href="mailto:support@studyportal.edu?subject=1st%20Year%20Study%20Portal%20Help"
+          {/* HELP Button - Triggers Contact & Help Modal */}
+          <button
+            type="button"
+            onClick={() => setIsContactModalOpen(true)}
             className="flex items-center space-x-1.5 px-3.5 py-2 bg-pink-500 text-white font-black text-xs uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-black active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-200 transform hover:-translate-y-0.5"
-            title="Contact Customer Support"
+            title="Contact Us & Help Center (Telegram Bot / Email)"
           >
             <HelpCircle className="w-4 h-4 stroke-[3]" />
             <span>HELP</span>
-          </a>
+          </button>
 
           {/* Auth status button */}
           {!isLoading && user ? (
@@ -159,12 +162,14 @@ export default function Navbar() {
 
         {/* Mobile Menu Toggle */}
         <div className="flex lg:hidden items-center space-x-2 shrink-0">
-          <a
-            href="mailto:support@studyportal.edu?subject=1st%20Year%20Study%20Portal%20Help"
-            className="px-2.5 py-1.5 bg-pink-500 text-white font-black text-xs uppercase border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+          <button
+            type="button"
+            onClick={() => setIsContactModalOpen(true)}
+            className="px-2.5 py-1.5 bg-pink-500 text-white font-black text-xs uppercase border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-black transition-colors"
+            title="Contact Us & Help Center"
           >
             HELP
-          </a>
+          </button>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 bg-white text-black border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
@@ -220,13 +225,17 @@ export default function Navbar() {
           </nav>
 
           <div className="pt-2 border-t-2 border-black space-y-2 font-mono">
-            <a
-              href="mailto:support@studyportal.edu?subject=1st%20Year%20Study%20Portal%20Help"
-              className="flex items-center justify-center space-x-2 px-3 py-3 bg-pink-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] font-black text-xs sm:text-sm uppercase text-center break-all"
+            <button
+              type="button"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setIsContactModalOpen(true);
+              }}
+              className="w-full flex items-center justify-center space-x-2 px-3 py-3 bg-pink-500 text-white border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] font-black text-xs sm:text-sm uppercase text-center hover:bg-black transition-colors"
             >
-              <Mail className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] shrink-0" />
-              <span>SUPPORT: SUPPORT@STUDYPORTAL.EDU</span>
-            </a>
+              <HelpCircle className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] shrink-0" />
+              <span>CONTACT US & HELP (BOT / EMAIL)</span>
+            </button>
 
             {user ? (
               <button
@@ -252,6 +261,12 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      {/* Interactive Contact & Help Modal */}
+      <ContactHelpModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </header>
   );
 }

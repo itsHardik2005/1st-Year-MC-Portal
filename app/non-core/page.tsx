@@ -19,14 +19,18 @@ import {
   Sun,
   Coffee,
   Maximize2,
+  Calculator,
+  FlaskConical,
+  Terminal,
+  MessageSquare,
 } from "lucide-react";
 
 export default function NonCorePage() {
   const router = useRouter();
   const subjects = getSubjectsByCategory("non-core");
 
-  // Step 1 State: Active Selected Elective Subject
-  const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0] || "Technical Communication");
+  // Step 1 State: Active Selected Subject
+  const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0] || "Mathematics-I (BS-M101)");
 
   const currentModules = getModulesBySubject(selectedSubject);
 
@@ -35,8 +39,17 @@ export default function NonCorePage() {
       "bg-purple-300 hover:bg-purple-400",
       "bg-pink-300 hover:bg-pink-400",
       "bg-emerald-300 hover:bg-emerald-400",
+      "bg-amber-300 hover:bg-amber-400",
     ];
     return colors[index % colors.length];
+  };
+
+  const getSubjectIcon = (subject: string) => {
+    if (subject.includes("Math")) return <Calculator className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />;
+    if (subject.includes("Chemistry")) return <FlaskConical className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />;
+    if (subject.includes("Programming")) return <Terminal className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />;
+    if (subject.includes("English") || subject.includes("Communication")) return <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />;
+    return <Layers className="w-6 h-6 sm:w-7 sm:h-7 stroke-[2.5]" />;
   };
 
   const handleLaunchModule = (moduleId: string, lectureId?: string, readingMode?: string) => {
@@ -56,13 +69,13 @@ export default function NonCorePage() {
           <div className="space-y-2">
             <div className="inline-flex items-center space-x-2 px-3 py-1 bg-black text-purple-300 font-mono text-xs font-black uppercase border-2 border-black">
               <Layers className="w-4 h-4 stroke-[3]" />
-              <span>1ST YEAR NON-CORE ELECTIVES DIRECTORY</span>
+              <span>1ST YEAR NON-CORE SYLLABUS DIRECTORY</span>
             </div>
             <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-black uppercase tracking-tighter">
-              ELECTIVE SUBJECTS & LECTURE SELECTOR
+              NON-CORE SYLLABUS & LECTURE SELECTOR
             </h1>
             <p className="text-xs md:text-sm font-bold text-black bg-white p-3 border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] max-w-3xl">
-              Step 1: Pick an Elective Subject &rarr; Step 2: Choose Module & Specific Video Lecture &rarr; Launch dedicated Video & PDF split viewer!
+              Step 1: Pick a Non-Core Subject &rarr; Step 2: Choose Module & Specific Video Lecture &rarr; Launch dedicated Video & PDF split viewer!
             </p>
           </div>
 
@@ -73,26 +86,26 @@ export default function NonCorePage() {
         </div>
       </div>
 
-      {/* ================= STEP 1: ELECTIVE SUBJECT SELECTION ================= */}
+      {/* ================= STEP 1: SUBJECT SELECTION ================= */}
       <div className="space-y-4">
         <div className="flex items-center space-x-3 border-b-4 border-black pb-3">
           <span className="bg-black text-purple-300 font-mono text-xs font-black px-3 py-1 border-2 border-black uppercase shrink-0">
             STEP 1 OF 2
           </span>
           <h2 className="text-xl sm:text-2xl font-black uppercase text-black tracking-tight">
-            SELECT ELECTIVE SUBJECT
+            SELECT NON-CORE SUBJECT
           </h2>
         </div>
 
         {/* Subject Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {subjects.map((subj, idx) => {
             const isSelected = selectedSubject === subj;
             return (
               <button
                 key={subj}
                 onClick={() => setSelectedSubject(subj)}
-                className={`p-5 sm:p-6 text-left border-3 sm:border-4 border-black transition-all duration-200 transform hover:-translate-y-1.5 flex flex-col justify-between relative ${
+                className={`p-5 text-left border-3 sm:border-4 border-black transition-all duration-200 transform hover:-translate-y-1.5 flex flex-col justify-between relative ${
                   isSelected
                     ? "bg-black text-white shadow-[6px_6px_0px_0px_rgba(236,72,153,1)] translate-x-1 -translate-y-1"
                     : `${getSubjectColor(idx)} text-black shadow-[5px_5px_0px_0px_rgba(0,0,0,1)] hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] active:translate-x-1 active:translate-y-1 active:shadow-none`
@@ -105,21 +118,21 @@ export default function NonCorePage() {
                 )}
 
                 <div className="space-y-4">
-                  <div className={`p-3 w-fit border-2 border-black ${isSelected ? "bg-purple-300 text-black" : "bg-white text-black"}`}>
-                    <Layers className="w-7 h-7 stroke-[2.5]" />
+                  <div className={`p-2.5 w-fit border-2 border-black ${isSelected ? "bg-purple-300 text-black" : "bg-white text-black"}`}>
+                    {getSubjectIcon(subj)}
                   </div>
                   <div>
-                    <h3 className="text-base sm:text-lg font-black uppercase tracking-tight leading-tight">
+                    <h3 className="text-sm sm:text-base font-black uppercase tracking-tight leading-tight line-clamp-2">
                       {subj}
                     </h3>
-                    <p className={`text-[11px] mt-1 font-mono ${isSelected ? "text-zinc-300 font-bold" : "text-black font-bold"}`}>
+                    <p className={`text-[11px] mt-1.5 font-mono ${isSelected ? "text-zinc-300 font-bold" : "text-black font-bold"}`}>
                       {getModulesBySubject(subj).length} MODULES AVAILABLE
                     </p>
                   </div>
                 </div>
 
-                <div className={`mt-6 pt-3 border-t-2 ${isSelected ? "border-zinc-700 text-purple-300" : "border-black text-black"} font-black text-xs uppercase flex items-center justify-between`}>
-                  <span>{isSelected ? "FILTER ACTIVE" : "SELECT ELECTIVE"}</span>
+                <div className={`mt-5 pt-3 border-t-2 ${isSelected ? "border-zinc-700 text-purple-300" : "border-black text-black"} font-black text-xs uppercase flex items-center justify-between`}>
+                  <span>{isSelected ? "FILTER ACTIVE" : "SELECT SUBJECT"}</span>
                   <ChevronRight className="w-4 h-4 stroke-[3]" />
                 </div>
               </button>
@@ -140,7 +153,7 @@ export default function NonCorePage() {
             </h2>
           </div>
           <span className="font-mono text-xs font-black text-black bg-white px-3 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            {currentModules.length} MODULES IN THIS ELECTIVE
+            {currentModules.length} MODULES IN THIS SUBJECT
           </span>
         </div>
 

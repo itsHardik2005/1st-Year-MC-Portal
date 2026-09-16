@@ -66,6 +66,20 @@ export default function ImmersiveReadingModal({
 
   const displayEmail = userEmail || "student@portal.edu";
 
+  const handleClose = () => {
+    // Immediately stop any playing video frames
+    const iframes = document.querySelectorAll("iframe");
+    iframes.forEach((frame) => {
+      try {
+        frame.contentWindow?.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+        frame.src = "about:blank";
+      } catch (e) {
+        // ignore
+      }
+    });
+    onClose();
+  };
+
   // Lock Body Scroll and set ESC key handler
   useEffect(() => {
     if (!isOpen) return;
@@ -75,7 +89,7 @@ export default function ImmersiveReadingModal({
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        handleClose();
       }
     };
 
@@ -93,7 +107,7 @@ export default function ImmersiveReadingModal({
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   // Pomodoro Timer Interval
   useEffect(() => {
@@ -325,7 +339,7 @@ export default function ImmersiveReadingModal({
 
           {/* EXIT FULLSCREEN READER BUTTON */}
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs uppercase tracking-wider border-2 border-black shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none transition-all duration-150 transform hover:-translate-y-0.5 flex items-center space-x-1.5 shrink-0"
             title="Exit Fullscreen Reading Sanctuary (ESC)"
           >

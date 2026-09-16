@@ -33,7 +33,7 @@ export default function CorePage() {
   const subjects = getSubjectsByCategory("core");
 
   // Step 1 State: Active Selected Subject
-  const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0] || "Mathematics-1");
+  const [selectedSubject, setSelectedSubject] = useState<string>(subjects[0] || "Mathematics-II (BS-M201)");
 
   const currentModules = getModulesBySubject(selectedSubject);
 
@@ -100,7 +100,7 @@ export default function CorePage() {
         </div>
 
         {/* Subject Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {subjects.map((subj, idx) => {
             const isSelected = selectedSubject === subj;
             return (

@@ -158,7 +158,7 @@ export default function SplitPaneViewer({
         } gap-4 relative min-h-[450px] sm:min-h-[700px] items-stretch`}
       >
         {/* Left Panel: Unlisted YouTube Video Lecture + Lecture Playlist Switcher */}
-        {(activeTab === "split" || activeTab === "video") && (
+        {(activeTab === "split" || activeTab === "video") && !isModalOpen && (
           <div className={`relative transition-colors duration-200 ${getPanelContainerBg()} flex flex-col justify-between overflow-hidden`}>
             {/* Panel Header */}
             <div className="bg-black text-white px-4 py-2 font-mono text-xs font-black uppercase flex items-center justify-between border-b-4 border-black">

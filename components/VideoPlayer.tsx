@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { Play, Video, ShieldCheck, Clock, BookOpen, Lock } from "lucide-react";
+import React, { useState, useEffect, useRef } from "react";
+import { Play, Video, ShieldCheck, Clock, BookOpen, Lock, Square } from "lucide-react";
 
 interface VideoPlayerProps {
   videoId: string; // YouTube Video ID (e.g. 'dQw4w9WgXcQ')
@@ -24,14 +24,63 @@ export default function VideoPlayer({
 }: VideoPlayerProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [timestamp, setTimestamp] = useState("");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const displayEmail = userEmail || "student@portal.edu";
 
   useEffect(() => {
     setTimestamp(new Date().toLocaleTimeString());
   }, []);
 
-  // Clean YouTube embed URL using privacy-enhanced domain (youtube-nocookie.com)
-  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+  // Stop previous video when videoId changes
+  useEffect(() => {
+    if (iframeRef.current) {
+      try {
+        iframeRef.current.contentWindow?.postMessage(
+          '{"event":"command","func":"stopVideo","args":""}',
+          '*'
+        );
+        iframeRef.current.src = "about:blank";
+      } catch (e) {
+        // ignore
+      }
+    }
+    setIsLoaded(false);
+  }, [videoId]);
+
+  // Clean up and stop video on unmount
+  useEffect(() => {
+    return () => {
+      if (iframeRef.current) {
+        try {
+          iframeRef.current.contentWindow?.postMessage(
+            '{"event":"command","func":"stopVideo","args":""}',
+            '*'
+          );
+          iframeRef.current.src = "about:blank";
+        } catch (e) {
+          // ignore
+        }
+      }
+    };
+  }, []);
+
+  const handleStopPlayback = () => {
+    if (iframeRef.current) {
+      try {
+        iframeRef.current.contentWindow?.postMessage(
+          '{"event":"command","func":"stopVideo","args":""}',
+          '*'
+        );
+        iframeRef.current.src = "about:blank";
+      } catch (e) {
+        // ignore
+      }
+    }
+    setIsLoaded(false);
+  };
+
+  // Clean YouTube embed URL with enablejsapi=1 so postMessage stop/pause works reliably
+  const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&enablejsapi=1`;
 
   return (
     <div className="w-full h-full flex flex-col font-mono select-none overflow-hidden bg-zinc-950 text-white">
@@ -46,6 +95,16 @@ export default function VideoPlayer({
         </div>
 
         <div className="flex items-center space-x-2 shrink-0 text-[11px]">
+          {isLoaded && (
+            <button
+              onClick={handleStopPlayback}
+              className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white font-mono font-black text-[10px] px-2 py-0.5 border border-white transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5"
+              title="Stop video playback and close stream"
+            >
+              <Square className="w-2.5 h-2.5 fill-current" />
+              <span>STOP PLAYING</span>
+            </button>
+          )}
           <span className="text-zinc-400 hidden sm:inline">{instructor}</span>
           <span className="bg-yellow-400/20 text-yellow-300 border border-yellow-400/40 px-1.5 py-0.5 font-mono text-[10px]">
             {duration}
@@ -117,6 +176,7 @@ export default function VideoPlayer({
 
         {isLoaded && (
           <iframe
+            ref={iframeRef}
             src={embedUrl}
             title={title}
             className="w-full h-full border-0 relative z-0"
